@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+/target/
+*.class
+*.war
+*.iml
+.idea/
