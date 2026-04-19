@@ -1,0 +1,6 @@
+{
+  "name": "Smart Campus Sensor & Room Management API",
+  "description": "A RESTful API built with JAX-RS for managing campus rooms, sensors, and historical readings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
