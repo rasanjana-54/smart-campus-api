@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.smartcampus</groupId>
   <artifactId>SmartCampusAPI</artifactId>
@@ -63,6 +63,9 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>9.4.44.v20210927</version>
         <configuration>
+          <httpConnector>
+            <port>9090</port>
+          </httpConnector>
           <scanIntervalSeconds>10</scanIntervalSeconds>
           <webApp>
             <contextPath>/SmartCampusAPI</contextPath>
