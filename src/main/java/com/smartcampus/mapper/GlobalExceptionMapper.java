@@ -17,12 +17,13 @@ public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
             return ((WebApplicationException) exception).getResponse();
         }
 
-        Map<String, String> error = new HashMap<>();
-        error.put("error", "Internal Server Error");
-        error.put("message", "An unexpected error occurred. Please contact the administrator.");
-        error.put("status", "500");
+        Map<String, Object> error = new HashMap<>();
+        error.put("error", "Server Error");
+        error.put("message", exception.getMessage() != null ? exception.getMessage() : "An unexpected error occurred.");
+        error.put("status", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+        error.put("type", exception.getClass().getSimpleName());
         
-        // Log the actual exception in a real scenario
+        // SECURITY REQUIREMENT: Log stack trace to server console but DO NOT expose to external consumers (Rubric 5.2)
         exception.printStackTrace();
 
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

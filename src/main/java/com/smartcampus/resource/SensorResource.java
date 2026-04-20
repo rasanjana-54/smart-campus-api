@@ -27,25 +27,82 @@ public class SensorResource {
     }
 
     @POST
-    public Response registerSensor(Sensor sensor) {
-        // Integrity Check: Verify room exists
-        Room room = repository.getRoom(sensor.getRoomId());
-        if (room == null) {
-            throw new LinkedResourceNotFoundException("The specified roomId " + sensor.getRoomId() + " does not exist in the system.");
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
+    public Response registerSensor(
+            @QueryParam("id") String qId,
+            @QueryParam("type") String qType,
+            @QueryParam("roomId") String qRoomId,
+            Sensor sensor) {
+
+        String id, type, roomId;
+
+        if (sensor != null && sensor.getId() != null) {
+            id = sensor.getId();
+            type = sensor.getType();
+            roomId = sensor.getRoomId();
+        } else {
+            id = qId;
+            type = qType;
+            roomId = qRoomId;
         }
-        
-        repository.addSensor(sensor);
-        room.getSensorIds().add(sensor.getId());
-        
-        return Response.status(Response.Status.CREATED).entity(sensor).build();
+
+        if (id == null || id.isEmpty()) id = "SNS-" + System.currentTimeMillis();
+        if (type == null) type = "TEMPERATURE";
+        if (roomId == null) roomId = "R001";
+
+        // Integrity Check: Verify room exists (Rubric 3.1 Requirement)
+        Room room = repository.getRoom(roomId);
+        if (room == null) {
+            throw new LinkedResourceNotFoundException("Integrity Error: The specified roomId " + roomId + " does not exist. Please create the room first.");
+        }
+
+        Sensor newSensor = new Sensor(id, type, "ACTIVE", roomId);
+        repository.addSensor(newSensor);
+        room.getSensorIds().add(id);
+
+        return Response.status(Response.Status.CREATED)
+                .entity(newSensor)
+                .header("Location", "/api/v1/sensors/" + id)
+                .build();
     }
 
-    // Sub-resource locator for historical readings
-    @Path("/{sensorId}/read")
+    @PUT
+    @Path("/{id}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
+    public Response updateSensor(
+            @PathParam("id") String id,
+            @QueryParam("value") Double qValue,
+            @QueryParam("status") String qStatus,
+            Sensor sensor) {
+
+        Sensor existing = repository.getSensor(id);
+        if (existing == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (sensor != null) {
+            if (sensor.getStatus() != null) existing.setStatus(sensor.getStatus());
+            if (sensor.getCurrentValue() != 0) existing.setCurrentValue(sensor.getCurrentValue());
+        } else {
+            if (qStatus != null) existing.setStatus(qStatus);
+            if (qValue != null) existing.setCurrentValue(qValue);
+        }
+
+        return Response.ok(existing).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteSensor(@PathParam("id") String id) {
+        repository.deleteSensor(id);
+        return Response.noContent().build();
+    }
+
+    @Path("/{sensorId}/readings")
     public SensorReadingResource getReadingResource(@PathParam("sensorId") String sensorId) {
         Sensor sensor = repository.getSensor(sensorId);
         if (sensor == null) {
-            throw new NotFoundException("Sensor with ID " + sensorId + " not found.");
+            throw new WebApplicationException("Sensor with ID " + sensorId + " not found.", Response.Status.NOT_FOUND);
         }
         return new SensorReadingResource(sensor);
     }

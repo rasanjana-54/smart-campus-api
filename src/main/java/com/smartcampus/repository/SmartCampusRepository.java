@@ -32,14 +32,24 @@ public class SmartCampusRepository {
 
     // Room Operations
     public Collection<Room> getAllRooms() { return rooms.values(); }
-    public Room getRoom(String id) { return rooms.get(id); }
-    public void addRoom(Room room) { rooms.put(room.getId(), room); }
-    public void deleteRoom(String id) { rooms.remove(id); }
+    public Room getRoom(String id) { 
+        if (id == null) return null;
+        return rooms.get(id); 
+    }
+    public void addRoom(Room room) { 
+        if (room != null && room.getId() != null) {
+            rooms.put(room.getId(), room); 
+        }
+    }
+    public void deleteRoom(String id) { 
+        if (id != null) rooms.remove(id); 
+    }
 
     // Sensor Operations
     public Collection<Sensor> getAllSensors() { return sensors.values(); }
     public Sensor getSensor(String id) { return sensors.get(id); }
     public void addSensor(Sensor sensor) { sensors.put(sensor.getId(), sensor); }
+    public void deleteSensor(String id) { if (id != null) sensors.remove(id); }
 
     // Reading Operations
     public List<SensorReading> getReadings(String sensorId) {
