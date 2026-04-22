@@ -26,7 +26,7 @@ public class RoomResource {
             @QueryParam("name") String qName,
             @QueryParam("capacity") @DefaultValue("0") int qCapacity,
             Room room) {
-
+        
         String id, name;
         int capacity;
 
@@ -80,12 +80,12 @@ public class RoomResource {
         if (room == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        
         // Business Logic Constraint: Cannot delete if has sensors
         if (!room.getSensorIds().isEmpty()) {
             throw new RoomNotEmptyException("Cannot delete room " + roomId + ". It is currently occupied by active hardware sensors.");
         }
-
+        
         repository.deleteRoom(roomId);
         return Response.noContent().build();
     }

@@ -1,11 +1,14 @@
 com\smartcampus\exception\RoomNotEmptyException.class
+com\smartcampus\resource\AIResource.class
 com\smartcampus\mapper\RoomNotEmptyMapper.class
 com\smartcampus\mapper\GlobalExceptionMapper.class
 com\smartcampus\model\Sensor.class
 com\smartcampus\exception\SensorUnavailableException.class
 com\smartcampus\exception\LinkedResourceNotFoundException.class
+com\smartcampus\service\GeminiService.class
 com\smartcampus\mapper\LinkedResourceMapper.class
 com\smartcampus\mapper\ForbiddenMapper.class
+com\smartcampus\mapper\UnprocessableEntityMapper.class
 com\smartcampus\JacksonConfiguration.class
 com\smartcampus\mapper\SensorUnavailableMapper.class
 com\smartcampus\resource\SensorResource.class

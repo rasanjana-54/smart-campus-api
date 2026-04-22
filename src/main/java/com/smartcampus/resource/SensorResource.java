@@ -33,9 +33,9 @@ public class SensorResource {
             @QueryParam("type") String qType,
             @QueryParam("roomId") String qRoomId,
             Sensor sensor) {
-
+        
         String id, type, roomId;
-
+        
         if (sensor != null && sensor.getId() != null) {
             id = sensor.getId();
             type = sensor.getType();
@@ -55,11 +55,11 @@ public class SensorResource {
         if (room == null) {
             throw new LinkedResourceNotFoundException("Integrity Error: The specified roomId " + roomId + " does not exist. Please create the room first.");
         }
-
+        
         Sensor newSensor = new Sensor(id, type, "ACTIVE", roomId);
         repository.addSensor(newSensor);
         room.getSensorIds().add(id);
-
+        
         return Response.status(Response.Status.CREATED)
                 .entity(newSensor)
                 .header("Location", "/api/v1/sensors/" + id)
@@ -74,7 +74,7 @@ public class SensorResource {
             @QueryParam("value") Double qValue,
             @QueryParam("status") String qStatus,
             Sensor sensor) {
-
+        
         Sensor existing = repository.getSensor(id);
         if (existing == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
