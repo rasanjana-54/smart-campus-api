@@ -1,4 +1,4 @@
-jetty:runpackage com.smartcampus.resource;
+package com.smartcampus.resource;
 
 import com.smartcampus.exception.LinkedResourceNotFoundException;
 import com.smartcampus.model.Room;
@@ -96,14 +96,6 @@ public class SensorResource {
     public Response deleteSensor(@PathParam("id") String id) {
         repository.deleteSensor(id);
         return Response.noContent().build();
-    }
-
-    @GET
-    @Path("/error/trigger")
-    public Response triggerError() {
-        // This endpoint intentionally throws an exception to demonstrate our GlobalExceptionMapper
-        // It should return a 500 status with a clean JSON message.
-        throw new RuntimeException("Forced Internal Server Error for demonstration purposes (Rubric 5.2).");
     }
 
     @Path("/{sensorId}/readings")
