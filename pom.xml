@@ -92,34 +92,7 @@
           <warSourceDirectory>src/main/webapp</warSourceDirectory>
         </configuration>
       </plugin>
-      <!-- OFFICIAL TOMCAT 9.0 RUNNER (Use command: mvn cargo:run) -->
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven3-plugin</artifactId>
-        <version>1.9.9</version>
-        <configuration>
-          <container>
-            <containerId>tomcat9x</containerId>
-            <type>embedded</type>
-          </container>
-          <configuration>
-            <properties>
-              <cargo.servlet.port>8080</cargo.servlet.port>
-            </properties>
-          </configuration>
-          <deployables>
-            <deployable>
-              <groupId>com.smartcampus</groupId>
-              <artifactId>SmartCampusAPI</artifactId>
-              <type>war</type>
-              <properties>
-                <context>/SmartCampusAPI</context>
-              </properties>
-            </deployable>
-          </deployables>
-        </configuration>
-      </plugin>
-      <!-- Jetty remains as a developer backup -->
+      <!-- PLAIN JETTY RUNNER (Simple & Fast) -->
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>

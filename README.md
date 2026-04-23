@@ -23,17 +23,15 @@ The **Smart Campus Sensor & Room Management API** provides comprehensive managem
 
 ## 🏗️ Project Execution Guide
 
-### **Running with Apache Tomcat 9.0 (Required)**
+### **Running with Jetty Server (Recommended)**
 1.  **Build:** Run `mvn clean package` in the root folder.
-2.  **Deploy:** Copy `target/SmartCampusAPI.war` to Tomcat's `webapps` folder.
-3.  **Run with Maven (Embedded):** Run `mvn cargo:run` (Runs real Tomcat 9.0).
-4.  **Access URL:** `http://localhost:8080/SmartCampusAPI/api/v1/`
+2.  **Run with Maven:** Run the command: `mvn jetty:run`
+3.  **Access URL:** `http://localhost:9595/SmartCampusAPI/api/v1/`
 
 ### **Running in NetBeans IDE**
 1.  Open the project in NetBeans.
-2.  Add **Apache Tomcat 9.0** via `Tools -> Servers`.
-3.  Connect the project to the server in `Properties -> Run`.
-4.  Click **Run** (Project automatically deploys to Tomcat).
+2.  Right-click Project -> **Run**.
+3.  The project will automatically start on the configured Jetty port (**9595**).
 
 ---
 
